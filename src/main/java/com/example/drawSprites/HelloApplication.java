@@ -12,43 +12,34 @@ import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class HelloApplication extends Application {
+    String[] fileNames = {"strawberry.png", "banana.png", "strawberry.png"};
 
-    private Coord coord = new Coord();
-    ImageView imageView;
+    List<Sprite> sprites = new ArrayList<>();
+    int counter = 0;
+    Group root;
+    Timer timer;
 
     @Override
     public void start(Stage stage) throws IOException {
 
         stage.setTitle("Hello!");
+
         Timer timer =  startTimer();
 
-        Image img = new Image("strawberry.jpg");
-        imageView = new ImageView(img);
-
-        Image img2 = new Image("banana.jpg");
-        ImageView imageView2 = new ImageView(img2);
-
-        //Setting the position of the image
-        imageView2.setX(10);
-        imageView2.setY(300);
-
-        //setting the fit height and width of the image view
-        //imageView2.setFitHeight(455);
-        //imageView2.setFitWidth(500);
-
-        Group root = new Group();
-
-        root.getChildren().add(imageView);
-        root.getChildren().add(imageView2);
-
+        root = new Group();
         stage.setScene(new Scene(root));
 
-        stage.setMaximized(true);
+        stage.setWidth(600);
+        stage.setHeight(600);
+
         stage.show();
+        stage.setMaximized(true);
     }
 
 
@@ -56,29 +47,47 @@ public class HelloApplication extends Application {
         launch();
     }
 
-
-    private void moveImage(){
-        if (imageView == null) return;
-        imageView.setX(coord.x);
-        imageView.setY(coord.y);
+    private void moveImages(){
+        for (Sprite s: this.sprites) {
+            s.MoveDown();
+        }
     }
 
+    private void updateImages(){
+        for (Sprite s: this.sprites) {
+            s.updatePos();
+        }
+    }
+    void randomizeAndAdd(){
+        if (counter % 10 == 0){
+            int index = counter % fileNames.length;
+            double x = Math.random() * 500;
+            Sprite sprite = new Sprite(x,50, fileNames[index]);
+            this.sprites.add(sprite);
+
+            ImageView imgV = sprite.getImageView();
+            root.getChildren().add(imgV);
+            updateImages();
+        }
+        moveImages();
+        counter++;
+
+    }
+
+
     private Timer startTimer(){
-        Timer timer = new Timer("Timer");
+        timer = new Timer("Timer");
 
         TimerTask task = new TimerTask() {
             public void run() {
-                coord.moveX(12);
-                System.out.println("HELLO " + coord.getX());
-
                 Platform.runLater(() -> {
-                    moveImage();
+                    randomizeAndAdd();
                 });
             }
         };
 
         long delay = 0;
-        long period = 1000L;
+        long period = 100L;
         timer.schedule(task, delay, period);
         return timer;
     } // startTimer
