@@ -1,4 +1,4 @@
-module com.example.grassorulez {
+module com.example.OldSprites {
     requires javafx.controls;
     requires javafx.fxml;
 
