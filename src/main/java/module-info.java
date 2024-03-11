@@ -3,6 +3,6 @@ module com.example.OldSprites {
     requires javafx.fxml;
 
 
-    opens com.example.drawSprites to javafx.fxml;
-    exports com.example.drawSprites;
+    opens com.ingconti.drawSprites to javafx.fxml;
+    exports com.ingconti.drawSprites;
 }

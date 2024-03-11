@@ -1,4 +1,4 @@
-package com.example.drawSprites;
+package com.ingconti.drawSprites;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

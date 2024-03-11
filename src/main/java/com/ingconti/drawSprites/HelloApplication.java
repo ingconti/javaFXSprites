@@ -1,4 +1,4 @@
-package com.example.drawSprites;
+package com.ingconti.drawSprites;
 
 import javafx.application.Application;
 import javafx.application.Platform;
